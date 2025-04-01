@@ -1,0 +1,6 @@
+# filepath: /Users/omarazam/Developer/Work/Skidata/park-sentry-logs/static.yml
+services:
+  - type: static
+    name: park-sentry-logs
+    buildCommand: npm install && npm run build
+    publishPath: dist
