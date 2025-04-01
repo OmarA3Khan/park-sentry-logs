@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { 
@@ -14,7 +15,10 @@ import {
   ChevronUp,
   Info,
   DollarSign,
-  TrendingDown
+  TrendingDown,
+  Search,
+  Filter,
+  X
 } from 'lucide-react';
 import StatCard from '@/components/StatCard';
 import StatusBadge from '@/components/StatusBadge';
@@ -446,6 +450,115 @@ const monthlyRevenueLoss = [
   { name: 'Dec', loss: 3700 },
 ];
 
+const statuses = ['All Statuses', 'Outstanding', 'Parts Ordered', 'Completed'];
+
+const equipmentData = [
+  {
+    id: 'eq1',
+    name: 'POF 1',
+    type: 'POF',
+    carPark: 'Virginia Water',
+    location: 'Main building',
+    installedDate: '2020-05-15',
+    manufacturer: 'Skidata',
+    serialNumber: 'SKI-45678-A',
+    lastMaintenance: '2023-01-20',
+    status: 'Operational',
+    faults: [
+      {
+        id: 'F32145',
+        date: '2023-04-12',
+        description: 'Display showing error code E45',
+        status: 'Outstanding',
+        reportedBy: 'JD',
+      },
+      {
+        id: 'F31990',
+        date: '2023-03-05',
+        description: 'Card reader intermittently not accepting payments',
+        status: 'Completed',
+        reportedBy: 'KA',
+      },
+    ],
+  },
+  {
+    id: 'eq2',
+    name: 'POF 2',
+    type: 'POF',
+    carPark: 'Virginia Water',
+    location: 'Near exit',
+    installedDate: '2020-05-15',
+    manufacturer: 'Skidata',
+    serialNumber: 'SKI-45679-A',
+    lastMaintenance: '2023-02-10',
+    status: 'Operational',
+    faults: [
+      {
+        id: 'F32100',
+        date: '2023-03-25',
+        description: 'Coin acceptor jammed',
+        status: 'Completed',
+        reportedBy: 'JD',
+      },
+    ],
+  },
+  {
+    id: 'eq3',
+    name: 'Entry 1',
+    type: 'Entry',
+    carPark: 'Virginia Water',
+    location: 'Main entrance',
+    installedDate: '2019-11-20',
+    manufacturer: 'Skidata',
+    serialNumber: 'SKI-34567-B',
+    lastMaintenance: '2023-01-15',
+    status: 'Needs Attention',
+    faults: [
+      {
+        id: 'F32142',
+        date: '2023-04-11',
+        description: 'Barrier not raising fully',
+        status: 'Parts Ordered',
+        reportedBy: 'KA',
+      },
+    ],
+  },
+  {
+    id: 'eq4',
+    name: 'Exit 2',
+    type: 'Exit',
+    carPark: 'Savill Garden',
+    location: 'Secondary exit',
+    installedDate: '2021-03-05',
+    manufacturer: 'Skidata',
+    serialNumber: 'SKI-56789-C',
+    lastMaintenance: '2023-03-01',
+    status: 'Operational',
+    faults: [
+      {
+        id: 'F32137',
+        date: '2023-04-08',
+        description: 'Card reader not accepting payments',
+        status: 'Completed',
+        reportedBy: 'JD',
+      },
+    ],
+  },
+  {
+    id: 'eq5',
+    name: 'POF 1',
+    type: 'POF',
+    carPark: 'Cranbourne',
+    location: 'Main building',
+    installedDate: '2020-08-12',
+    manufacturer: 'Skidata',
+    serialNumber: 'SKI-45680-A',
+    lastMaintenance: '2023-02-28',
+    status: 'Operational',
+    faults: [],
+  },
+];
+
 const UnifiedDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [activeSection, setActiveSection] = useState('faults');
@@ -454,19 +567,54 @@ const UnifiedDashboard: React.FC = () => {
   const [isFaultDialogOpen, setIsFaultDialogOpen] = useState(false);
   const [analyticsTab, setAnalyticsTab] = useState('overview');
   const [timeRange, setTimeRange] = useState('year');
+  const [selectedCarPark, setSelectedCarPark] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
   
+// Filter function for recent faults
+  const filteredFaults = mockData.recentFaults.filter(fault => {
+    const matchesCarPark = !selectedCarPark || selectedCarPark === 'All Car Parks' || fault.carPark === selectedCarPark;
+    const matchesStatus = !selectedStatus || selectedStatus === 'All Statuses' || fault.status === selectedStatus;
+    const matchesSearch = !searchQuery || 
+      fault.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      fault.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      fault.equipment.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesCarPark && matchesStatus && matchesSearch;
+  });
+
+  const clearFilters = () => {
+    setSelectedCarPark(null);
+    setSelectedStatus(null);
+    setSearchQuery('');
+  };
+
   const currentStats = mockData.carParkData[activeTab as keyof typeof mockData.carParkData];
   
-  const filteredFaults = useMemo(() => {
-    if (activeTab === 'Overview') {
-      return mockData.recentFaults;
-    }
-    return mockData.recentFaults.filter(fault => fault.carPark === activeTab);
-  }, [activeTab]);
+  // const filteredFaults = useMemo(() => {
+  //   if (activeTab === 'Overview') {
+  //     return mockData.recentFaults;
+  //   }
+  //   return mockData.recentFaults.filter(fault => fault.carPark === activeTab);
+  // }, [activeTab]);
   
   const currentEquipment = mockData.equipment[activeTab as keyof typeof mockData.equipment];
+  console.log('currentEquipment', currentEquipment);
   
   const currentEquipmentList = mockData.equipmentList[activeTab as keyof typeof mockData.equipmentList] || [];
+  console.log('currentEquipmentList', currentEquipmentList);
+  // Filter equipment based on selected filters and search query
+  const filteredEquipment = equipmentData.filter((equipment) => {
+    const matchesCarPark = selectedCarPark ? equipment.carPark === selectedCarPark : true;
+    const matchesType = selectedType ? equipment.type === selectedType : true;
+    const matchesSearch = searchQuery 
+      ? equipment.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        equipment.serialNumber.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+    
+    return matchesCarPark && matchesType && matchesSearch;
+  });
   
   const currentAnalytics = mockData.analytics[activeTab as keyof typeof mockData.analytics];
 
@@ -575,6 +723,60 @@ const UnifiedDashboard: React.FC = () => {
                   : `Reported faults for ${activeTab} car park`}
               </CardDescription>
             </CardHeader>
+            <div className="flex items-center pl-6 pb-2 gap-2">
+              <Filter className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground mr-2">Filter:</span>
+              <div className="flex flex-wrap gap-2">
+                <div className="flex items-center space-x-2">
+                  <div className="relative w-[200px]">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search..."
+                      className="pl-8 h-9"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                      <button 
+                        className="absolute right-2.5 top-2.5" 
+                        onClick={() => setSearchQuery('')}
+                      >
+                        <X className="h-4 w-4 text-muted-foreground" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <Select value={selectedCarPark || ''} onValueChange={(value) => setSelectedCarPark(value)}>
+                  <SelectTrigger className="w-[160px] h-9">
+                    <SelectValue placeholder="Car Park" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {carParks.map((carPark) => (
+                      <SelectItem key={carPark} value={carPark}>
+                        {carPark}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedStatus || ''} onValueChange={(value) => setSelectedStatus(value)}>
+                  <SelectTrigger className="w-[160px] h-9">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statuses.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {(selectedCarPark || selectedStatus || searchQuery) && (
+                  <Button variant="ghost" size="sm" onClick={clearFilters} className="h-9">
+                    Clear
+                  </Button>
+                )}
+              </div>
+            </div>
             <CardContent>
               <div className="rounded-md border">
                 <div className="grid grid-cols-12 border-b py-3 px-4 bg-muted/50">
@@ -662,6 +864,15 @@ const UnifiedDashboard: React.FC = () => {
                 Click on any equipment to view more details
               </CardDescription>
             </CardHeader>
+            <div className="relative mx-6 pb-2 flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search equipment..."
+                className="pl-9"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <CardContent>
               <div className="space-y-4">
                 {currentEquipmentList.length === 0 ? (
@@ -670,7 +881,7 @@ const UnifiedDashboard: React.FC = () => {
                     <p className="text-center text-muted-foreground">No equipment found for this car park.</p>
                   </div>
                 ) : (
-                  currentEquipmentList.map((equipment, index) => (
+                  filteredEquipment.map((equipment, index) => (
                     <Card 
                       key={equipment.id} 
                       className={`overflow-hidden animate-scale-in animation-delay-${index * 100}`}
