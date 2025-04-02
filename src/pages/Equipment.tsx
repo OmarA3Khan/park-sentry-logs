@@ -409,6 +409,13 @@ const Equipment: React.FC = () => {
                         </div>
                       )}
                     </div>
+                    <div className='mt-4'>
+                      <Label className="text-muted-foreground">AI Suggestions</Label>
+                      <ul className='mt-2'>
+                        <li className="font-medium text-sm">- In 78% of similar cases, replacing the display cable resolved E45 errors</li>
+                        <li className="font-medium text-sm">- Check voltage supply - 62% of flickering display issues were power-related</li>
+                      </ul>
+                    </div>
                   </CardContent>
                   <CardFooter className="border-t pt-3 flex justify-end gap-2">
                     <Button variant="outline" size="sm">Edit Equipment</Button>

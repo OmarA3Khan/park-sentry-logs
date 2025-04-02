@@ -26,7 +26,7 @@ import {
   LineChart as LineChartIcon, 
   PieChart as PieChartIcon,
   TrendingDown,
-  DollarSign
+  PoundSterlingIcon
 } from "lucide-react";
 
 // Sample data for the charts
@@ -448,11 +448,11 @@ const AnalyticsPage = () => {
                     <CardDescription>Due to equipment downtime</CardDescription>
                   </div>
                   <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
-                    <DollarSign className="h-5 w-5 text-red-600" />
+                    <PoundSterlingIcon className="h-5 w-5 text-red-600" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-600">$42,300</div>
+                  <div className="text-2xl font-bold text-red-600">£42,300</div>
                   <p className="text-xs text-muted-foreground">+8.2% from previous period</p>
                 </CardContent>
               </Card>
@@ -469,7 +469,7 @@ const AnalyticsPage = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">Payment Terminal C</div>
-                  <p className="text-xs text-muted-foreground">$4,500 revenue impact</p>
+                  <p className="text-xs text-muted-foreground">£4,500 revenue impact</p>
                 </CardContent>
               </Card>
               
@@ -484,7 +484,7 @@ const AnalyticsPage = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$125</div>
+                  <div className="text-2xl font-bold">£125</div>
                   <p className="text-xs text-muted-foreground">-3.5% from previous period</p>
                 </CardContent>
               </Card>
@@ -506,7 +506,7 @@ const AnalyticsPage = () => {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip formatter={(value) => [`$${value}`, "Revenue Lost"]} />
-                        <Bar dataKey="revenue" fill="#ea384c" name="Revenue Lost ($)" />
+                        <Bar dataKey="revenue" fill="#ea384c" name="Revenue Lost (£)" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -529,7 +529,7 @@ const AnalyticsPage = () => {
                         <YAxis />
                         <Tooltip formatter={(value) => [`$${value}`, "Revenue Lost"]} />
                         <Legend />
-                        <Line type="monotone" dataKey="loss" stroke="#ea384c" activeDot={{ r: 8 }} name="Revenue Lost ($)" />
+                        <Line type="monotone" dataKey="loss" stroke="#ea384c" activeDot={{ r: 8 }} name="Revenue Lost (£)" />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
@@ -554,7 +554,7 @@ const AnalyticsPage = () => {
                       <YAxis yAxisId="right" orientation="right" stroke="#8884d8" />
                       <Tooltip />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="revenue" fill="#ea384c" name="Revenue Lost ($)" />
+                      <Bar yAxisId="left" dataKey="revenue" fill="#ea384c" name="Revenue Lost (£)" />
                       <Bar yAxisId="right" dataKey="downtime" fill="#8884d8" name="Downtime Hours" />
                     </BarChart>
                   </ResponsiveContainer>

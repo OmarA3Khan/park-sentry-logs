@@ -277,6 +277,13 @@ const FaultReports: React.FC = () => {
                         <Label className="text-muted-foreground">Description</Label>
                         <p className="font-medium">{fault.description}</p>
                       </div>
+                      <div>
+                        <Label className="text-muted-foreground">AI Suggestions</Label>
+                        <ul>
+                          <li className="font-medium text-sm">- In 78% of similar cases, replacing the display cable resolved E45 errors</li>
+                          <li className="font-medium text-sm">- Check voltage supply - 62% of flickering display issues were power-related</li>
+                        </ul>
+                      </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label className="text-muted-foreground">Date Reported</Label>

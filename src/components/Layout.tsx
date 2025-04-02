@@ -87,7 +87,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               >
                 Fault Reports
               </Link>
-              <Link
+              {/* <Link
                 to="/status"
                 className={cn(
                   "px-3 py-1 mr-2 text-sm rounded-md transition-colors",
@@ -97,7 +97,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 )}
               >
                 Status
-              </Link>
+              </Link> */}
               <Link
                 to="/users"
                 className={cn(

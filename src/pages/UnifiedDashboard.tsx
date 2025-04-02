@@ -1328,7 +1328,7 @@ const UnifiedDashboard: React.FC = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-red-600">$42,300</div>
+                    <div className="text-2xl font-bold text-red-600">£42,300</div>
                     <p className="text-xs text-muted-foreground">+8.2% from previous period</p>
                   </CardContent>
                 </Card>
@@ -1345,7 +1345,7 @@ const UnifiedDashboard: React.FC = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">Payment Terminal C</div>
-                    <p className="text-xs text-muted-foreground">$4,500 revenue impact</p>
+                    <p className="text-xs text-muted-foreground">£4,500 revenue impact</p>
                   </CardContent>
                 </Card>
                 
@@ -1360,7 +1360,7 @@ const UnifiedDashboard: React.FC = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$125</div>
+                    <div className="text-2xl font-bold">£125</div>
                     <p className="text-xs text-muted-foreground">-3.5% from previous period</p>
                   </CardContent>
                 </Card>
@@ -1382,7 +1382,7 @@ const UnifiedDashboard: React.FC = () => {
                           <XAxis dataKey="name" />
                           <YAxis />
                           <Tooltip formatter={(value) => [`$${value}`, "Revenue Lost"]} />
-                          <Bar dataKey="revenue" fill="#ea384c" name="Revenue Lost ($)" />
+                          <Bar dataKey="revenue" fill="#ea384c" name="Revenue Lost (£)" />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -1405,7 +1405,7 @@ const UnifiedDashboard: React.FC = () => {
                           <YAxis />
                           <Tooltip formatter={(value) => [`$${value}`, "Revenue Lost"]} />
                           <Legend />
-                          <Line type="monotone" dataKey="loss" stroke="#ea384c" activeDot={{ r: 8 }} name="Revenue Lost ($)" />
+                          <Line type="monotone" dataKey="loss" stroke="#ea384c" activeDot={{ r: 8 }} name="Revenue Lost (£)" />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -1430,7 +1430,7 @@ const UnifiedDashboard: React.FC = () => {
                         <YAxis yAxisId="right" orientation="right" stroke="#8884d8" />
                         <Tooltip />
                         <Legend />
-                        <Bar yAxisId="left" dataKey="revenue" fill="#ea384c" name="Revenue Lost ($)" />
+                        <Bar yAxisId="left" dataKey="revenue" fill="#ea384c" name="Revenue Lost (£)" />
                         <Bar yAxisId="right" dataKey="downtime" fill="#8884d8" name="Downtime Hours" />
                       </BarChart>
                     </ResponsiveContainer>
