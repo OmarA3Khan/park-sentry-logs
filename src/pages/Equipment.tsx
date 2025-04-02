@@ -412,8 +412,8 @@ const Equipment: React.FC = () => {
                     <div className='mt-4'>
                       <Label className="text-muted-foreground">AI Suggestions</Label>
                       <ul className='mt-2'>
-                        <li className="font-medium text-sm">- In 78% of similar cases, replacing the display cable resolved E45 errors</li>
-                        <li className="font-medium text-sm">- Check voltage supply - 62% of flickering display issues were power-related</li>
+                        <li className="font-medium text-sm">- This equipment is approaching 5 years since installation (2020-04-15) - 82% of similar Santa Martín® units require component replacement after 5-6 years</li>
+                        <li className="font-medium text-sm">- Based on maintenance history, this display is overdue for preventive service (last maintained 2020-04-20)</li>
                       </ul>
                     </div>
                   </CardContent>
